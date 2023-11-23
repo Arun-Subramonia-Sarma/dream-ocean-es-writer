@@ -1,0 +1,78 @@
+application:
+  client:
+    user: ${TRACKING_USER}
+    password: ${TRACKING_PASSWORD}
+tracking:
+  baseUrl: ${TRACKING_BASE_URL}
+  trackingPath:  ${TRACKING_SEARCH_PATH:api/v1/tracking/}
+  threadSize: 100
+  pageSize: 100
+  clientId: ${TRACKING_CLIENT_ID}
+  trackingSecret: ${TRACKING_SECRET}
+  threadNamePrefix: ${TRACKING_THREAD_PREFIX:speacial-thread-%d}
+es:
+  url: ${ES_URL:https://elasticsearch-ocean-service-dev.fourkites.com}
+  host: ${ES_HOST:vpc-ocean-service-dev-5op4sxr6sjcxetyby7sjbmednm.us-east-1.es.amazonaws.com}
+  port: ${ES_PORT:443}
+  schema: ${ES_SCHEMA:https}
+velocity:
+  groupTemplate: ${VELOCITY_TEMPLATE_GROUP_TEMPLATE_FILENAME:esquery_buckets.vm}
+  loadInGroupTemplate: ${VELOCITY_TEMPLATE_LOAD_IN_GROUPS_TEMPLATE_FILENAME:esquery_loads_in_buckets.vm}
+  singleGroupCount: ${VELOCITY_TEMPLATE_GROUP_COUNT_TEMPLATE_FILENAME:esquery_group_count.vm}
+  filterTemplate: ${VELOCITY_TEMPLATE_FILTER_TEMPLATE_FILENAME:esquery_filters.vm}
+logging:
+  level:
+    root: ${ROOT_LOG_LEVEL:info}
+    com.fourkites.ocean.es.writer: ${APP_LOG_LEVEL:info}
+    com.fourkites.ocean.es.writer.controller: ${APP_REST_LOG_LEVEL:info}
+    com.fourkites.ocean.es.writer.service: ${APP_SERVICE_LOG_LEVEL:info}
+    com.fourkites.ocean.es.writer.dbao: ${APP_DAO_LOG_LEVEL:info}
+    com.fourkites.ocean.es.writer.sao: ${APP_SAO_LOG_LEVEL:info}
+    org.springframework.web.client: ${REST_CLIENT_LOG_LEVEL:info}
+management:
+  management:
+    info:
+      git:
+        mode: full
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+spring:
+  application:
+    name: ${APP_NAME:Ocean-ES-Writer}
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: localhost:9200
+      repositories:
+        enabled: true
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
+    hikari:
+      poolName: ${DATASOURCE_POOL_NAME:Ocean-DB-Pool}
+      maxPoolSize: ${DATASOURCE_MAX_POOL_SIZE:10}
+      isAutoCommit: ${DATASOURCE_IS_AUTO_COMMIT:false}
+      minIdle: ${DATASOURCE_MIN_IDLE:5}
+      idleTimeout: ${DATASOURCE_IDLE_TIMEOUT:10000}
+  main:
+    allow-bean-definition-overriding: true
+#  data:
+#    elasticsearch:
+#      cluster-name: ocean-service-dev
+#      cluster-nodes: vpc-ocean-service-dev-5op4sxr6sjcxetyby7sjbmednm.us-east-1.es.amazonaws.com:9200
+#      repositories:
+#        enabled: true
+test: elasticsearch-ocean-service-dev.fourkites.com
+server:
+  compression:
+    enabled: true
+    min-response-size: 2048
+    mime-types: "application/json,application/xml,text/html,text/xml,text/plain"
+
+

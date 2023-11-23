@@ -1,0 +1,11 @@
+{
+  "query" : {
+    "bool": {
+      "must" : {
+        "terms" : {
+          "oceanInfo.${groupingColumnName}.keyword" : ["${groupingColumnValue}"]
+        }
+      }
+    }
+  }
+}

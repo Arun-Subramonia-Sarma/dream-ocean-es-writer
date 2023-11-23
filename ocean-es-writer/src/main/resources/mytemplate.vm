@@ -1,0 +1,8 @@
+"bool": {
+      "must": [
+        {"match": {
+          "oceanInfo.billOfLading.keyword": "UnAssigned"
+          }
+        }
+      ]
+    }

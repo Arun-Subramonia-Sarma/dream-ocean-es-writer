@@ -1,0 +1,53 @@
+{
+  "size":0,
+  "aggregations": {
+    "bookingNumber_total_count": {
+      "cardinality": {
+        "field": "oceanInfo.${groupingColumnName}.keyword"
+      }
+    },
+    "bookingNumber_group": {
+      "terms": {
+        "field": "oceanInfo.${groupingColumnName}.keyword",
+        "size": 100,
+        "min_doc_count": 1,
+        "shard_min_doc_count": 0,
+        "show_term_doc_count_error": false
+      },
+      "aggregations": {
+#if($fetchLoads)
+        "load": {
+          "top_hits": {
+            "from": $loadStart,
+            "size": $numberOfLoadsPerBucket,
+            "version": false,
+            "seq_no_primary_term": false,
+            "explain": false,
+            "sort": [
+              {
+                "$loadSortField": {
+                  "order": "$loadSortOrder"
+                }
+              }
+            ]
+          }
+        },
+#end
+        "bucket_sort": {
+          "bucket_sort": {
+            "sort": [
+              {
+                "$bucketSortField": {
+                  "order": "$bucketSortOrder"
+                }
+              }
+            ],
+            "from": $pageStart,
+            "size": $pageSize,
+            "gap_policy": "SKIP"
+          }
+        }
+      }
+    }
+  }
+}

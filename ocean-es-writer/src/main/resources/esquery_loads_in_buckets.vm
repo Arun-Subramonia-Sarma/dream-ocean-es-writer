@@ -1,0 +1,20 @@
+{
+  "query" : {
+    "bool": {
+      "must" : {
+        "terms" : {
+          "oceanInfo.${groupingColumnName}.keyword" : ["${groupingColumnValue}"]
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "$loadSortField": {
+        "order": "$loadSortOrder"
+      }
+    }
+  ],
+  "from": $loadStart,
+  "size": $numberOfLoadsPerBucket
+}

@@ -1,0 +1,13 @@
+#foreach( $tablename in $tables )
+--${tablename}_partition_${partitionNumber}
+CREATE TABLE ${tablename}_partition_${partitionNumber} PARTITION OF trailers  FOR VALUES in ('${tenant}');
+ALTER TABLE ${tablename}_partition_${partitionNumber} OWNER TO yi_app;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE ${tablename}_partition_${partitionNumber} TO dyf_read_write_role;
+GRANT SELECT ON TABLE ${tablename}_partition_${partitionNumber} TO dyf_read_role;
+GRANT SELECT ON TABLE ${tablename}_partition_${partitionNumber} TO dyf_support_role;
+CREATE POLICY tenant_isolation ON ${tablename}_partition_${partitionNumber} USING (((tenant)::text = current_setting('tenant.id'::text)));
+ALTER TABLE ${tablename}_partition_${partitionNumber} ENABLE ROW LEVEL SECURITY;
+
+#end
+
+
